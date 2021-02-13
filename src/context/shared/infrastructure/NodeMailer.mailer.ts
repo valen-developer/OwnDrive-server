@@ -5,7 +5,6 @@ import smtpTransport from "nodemailer-smtp-transport";
 import { Mailer } from "../domain/interfaces/mail.interface";
 
 import { enviroment } from "../../../app/config/enviroment";
-import { Http4xxException } from "../domain/exceptions/Http4xx.exception";
 
 export class NodeMailer implements Mailer {
   private transporter: Mail;
@@ -33,8 +32,8 @@ export class NodeMailer implements Mailer {
       html: template,
     };
 
-    await this.transporter.sendMail(mailOptions).catch((err) => {
-      throw new Http4xxException("unable send mail", 500);
+    const resp = await this.transporter.sendMail(mailOptions).catch((err) => {
+      console.log(err);
     });
   }
 }

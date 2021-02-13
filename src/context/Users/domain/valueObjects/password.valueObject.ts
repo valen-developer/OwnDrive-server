@@ -19,6 +19,6 @@ export class UserPassword implements ValueObject {
     const regExp = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,20})/;
     const isValid = regExp.test(this.value);
 
-    if (!isValid) throw new Http4xxException("bad request", 400);
+    if (!isValid) throw new Http4xxException("invalid password", 400);
   }
 }

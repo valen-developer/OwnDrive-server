@@ -22,6 +22,10 @@ const UserMongo = new Schema({
     type: String,
     required: false,
   },
+  validated: {
+    type: Boolean,
+    require: true,
+  },
 });
 
 export default mongoose.model("user", UserMongo);

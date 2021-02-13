@@ -42,7 +42,7 @@ export class User {
   }
 }
 
-interface UserObject {
+export interface UserObject {
   uuid: string;
   name: string;
   email: string;

@@ -1,3 +1,8 @@
 export interface Mailer {
-  send(to: string, from: string, subject: string, template: string): any;
+  send(
+    to: string,
+    from: string,
+    subject: string,
+    template: string
+  ): Promise<any>;
 }
