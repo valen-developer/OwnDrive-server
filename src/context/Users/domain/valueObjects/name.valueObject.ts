@@ -10,6 +10,6 @@ export class UserName implements ValueObject {
   }
 
   private checkIfNull(): void {
-    if (!this.value) throw new NullValueException("user name");
+    if (!this.value) throw new NullValueException("user name", 400);
   }
 }
