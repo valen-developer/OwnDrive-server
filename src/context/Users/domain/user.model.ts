@@ -10,13 +10,15 @@ export class User {
   public readonly email: UserEmail;
   public readonly password: UserPassword;
   public readonly image: UserImage;
+  public readonly isValidated: boolean;
 
-  constructor({ uuid, name, email, password, image }: UserObject) {
+  constructor({ uuid, name, email, password, image, validated }: UserObject) {
     this.uuid = new UUID(uuid);
     this.name = new UserName(name);
     this.email = new UserEmail(email);
     this.password = new UserPassword(password);
     this.image = new UserImage(image);
+    this.isValidated = validated;
   }
 
   public toObject(): UserObject {
@@ -26,6 +28,7 @@ export class User {
       password: this.password.value,
       email: this.email.value,
       image: this.image.value,
+      validated: this.isValidated,
     };
   }
 
@@ -45,6 +48,7 @@ interface UserObject {
   email: string;
   password: string;
   image: string | null;
+  validated: boolean;
 }
 
 interface UserWithoutPassword {
