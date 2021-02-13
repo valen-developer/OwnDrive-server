@@ -7,6 +7,7 @@ import { UserCreator } from "../../../context/Users/application/userCreator";
 import { resetPasswordTemplate } from "../../templates/mail-templates/reset-password.template";
 import { enviroment } from "../../config/enviroment";
 import { generateRandomPassword } from "../../utils/randomPasswordGenerator";
+import { NullValueException } from "../../../context/shared/domain/exceptions/NullValue.exception";
 
 export class SingupController implements Controller {
   private mailer: Mailer;
@@ -23,12 +24,7 @@ export class SingupController implements Controller {
     const randomPassword = generateRandomPassword();
 
     try {
-      await this.mailer.send(
-        body.email,
-        enviroment.mailer.auth.user,
-        "OWN DRIVE - YOUR PASSWORD",
-        resetPasswordTemplate(body.name, randomPassword)
-      );
+      await this.sendPassword(body.email, body.name, randomPassword);
 
       const userCreator = new UserCreator(this.userRepository);
       await userCreator.create({
@@ -53,5 +49,20 @@ export class SingupController implements Controller {
         error: error.message,
       });
     }
+  }
+
+  private async sendPassword(
+    email: string,
+    name: string,
+    randomPassword: string
+  ): Promise<void> {
+    if (!(email && name)) throw new NullValueException("name and email", 400);
+
+    await this.mailer.send(
+      email,
+      enviroment.mailer.auth.user,
+      "OWN DRIVE - YOUR PASSWORD",
+      resetPasswordTemplate(name, randomPassword)
+    );
   }
 }
