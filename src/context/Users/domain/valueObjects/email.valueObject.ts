@@ -13,7 +13,7 @@ export class UserEmail implements ValueObject {
   }
 
   public setValue(value: any): void {
-    if (UserPassword.isValidPassword(value)) this._value = value;
+    this._value = value;
   }
 
   get value() {
