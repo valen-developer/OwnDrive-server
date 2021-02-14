@@ -38,6 +38,7 @@ export class User {
       email: this.email.value,
       image: this.image.value,
       name: this.name.value,
+      validated: this.isValidated,
     };
   }
 }
@@ -51,9 +52,10 @@ export interface UserObject {
   validated: boolean;
 }
 
-interface UserWithoutPassword {
+export interface UserWithoutPassword {
   uuid: string;
   name: string;
   email: string;
   image: string | null;
+  validated: boolean;
 }

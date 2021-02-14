@@ -18,6 +18,10 @@ const UserMongo = new Schema({
     required: true,
     unique: true,
   },
+  password: {
+    type: String,
+    require: true,
+  },
   image: {
     type: String,
     required: false,

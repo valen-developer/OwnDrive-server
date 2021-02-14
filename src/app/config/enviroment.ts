@@ -14,4 +14,8 @@ export const enviroment = {
   MongoDB: {
     url: process.env.MONGODBURL || "mongodb://localhost:27017/owndrive",
   },
+  token: {
+    seed: process.env.TOKENSEED || "a string seed",
+    expireIn: "5d",
+  },
 };

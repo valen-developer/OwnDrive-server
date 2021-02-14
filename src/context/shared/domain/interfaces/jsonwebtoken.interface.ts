@@ -1,5 +1,5 @@
 export interface JWT {
-  decode(token: string, options: any): void;
+  decode(token: string, options: any): any;
   sign(
     payload: string | object | Buffer,
     secretkey: string,

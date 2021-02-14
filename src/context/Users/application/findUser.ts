@@ -20,7 +20,7 @@ export class UserFinder {
       name: userDB.name,
       password: userDB.password,
       uuid: userDB.uuid,
-      validated: userDB.valiedate,
+      validated: userDB.validated,
     });
   }
 }
