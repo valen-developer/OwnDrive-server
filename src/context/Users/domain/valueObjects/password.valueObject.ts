@@ -9,7 +9,7 @@ export class UserPassword implements ValueObject {
     this.value = value;
     this.checkIfNull();
 
-    if (UserPassword.isValidPassword(this.value))
+    if (!UserPassword.isValidPassword(this.value))
       throw new Http4xxException("invalid password", 400);
   }
 
@@ -19,6 +19,6 @@ export class UserPassword implements ValueObject {
 
   public static isValidPassword(value: string): boolean {
     const regExp = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,20})/;
-    return regExp.test(value);
+    return regExp.test(value) && value.length >= 8 && value.length <= 20;
   }
 }
