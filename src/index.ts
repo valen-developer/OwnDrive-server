@@ -1,4 +1,5 @@
 import { urlencoded, json } from "express";
+import fileupload from "express-fileupload";
 import mongoose from "mongoose";
 import cors from "cors";
 
@@ -12,6 +13,8 @@ const server = new Server(enviroment.port);
 server.app.use(urlencoded({ extended: false }));
 server.app.use(json());
 server.app.use(cors());
+
+server.app.use(fileupload());
 
 server.app.use(router);
 

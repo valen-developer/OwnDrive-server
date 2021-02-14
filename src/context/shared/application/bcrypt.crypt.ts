@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+
 import { Crypt } from "../domain/interfaces/crypt.interface";
 
 export class Bcrypt implements Crypt {

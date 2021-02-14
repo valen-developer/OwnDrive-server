@@ -1,3 +1,5 @@
+import { UserPassword } from "../../context/Users/domain/valueObjects/password.valueObject";
+
 export const generateRandomPassword = () => {
   const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const lower = "abcdefghijklmnopqrstuvwxyz";

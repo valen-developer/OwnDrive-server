@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import path from "path";
 
 import { Controller } from "../controller.interface";
 import { resetPasswordTemplate } from "../../templates/mail-templates/reset-password.template";
@@ -10,14 +11,22 @@ import { UserRepository } from "../../../context/Users/domain/userRepository.int
 import { UserCreator } from "../../../context/Users/application/userCreator";
 
 import { NullValueException } from "../../../context/shared/domain/exceptions/NullValue.exception";
+import { DirCreator } from "../../../context/Storage/domain/interfaces/DirCreator.interface";
+import { storage } from "../../config/storage";
 
 export class SingupController implements Controller {
   private mailer: Mailer;
   private userRepository: UserRepository;
+  private dirCreator: DirCreator;
 
-  constructor(mailer: Mailer, userRepository: UserRepository) {
+  constructor(
+    mailer: Mailer,
+    userRepository: UserRepository,
+    dirCreator: DirCreator
+  ) {
     this.mailer = mailer;
     this.userRepository = userRepository;
+    this.dirCreator = dirCreator;
   }
 
   public async run(req: Request, res: Response) {
@@ -37,6 +46,8 @@ export class SingupController implements Controller {
         image: null,
         validated: false,
       });
+
+      this.dirCreator.create(storage.path, body.email);
 
       res.status(201).json({
         ok: true,

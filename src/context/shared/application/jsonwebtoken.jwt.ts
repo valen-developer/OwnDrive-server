@@ -1,6 +1,6 @@
-import { JWT } from "../domain/interfaces/jsonwebtoken.interface";
-
 import jwt from "jsonwebtoken";
+
+import { JWT } from "../domain/interfaces/jsonwebtoken.interface";
 
 export class JSONWEBTOKEN implements JWT {
   decode(token: string, options: any): any {

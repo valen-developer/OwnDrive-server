@@ -13,7 +13,8 @@ export const authControllersInjector = (container: IOC) => {
     (c) =>
       new SingupController(
         c.get(utilsDependencies.NodeMailer),
-        c.get(repositories.MongoUserRepository)
+        c.get(repositories.MongoUserRepository),
+        c.get(utilsDependencies.FSDirCreator)
       )
   );
 
