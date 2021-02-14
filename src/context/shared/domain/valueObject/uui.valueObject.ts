@@ -3,7 +3,7 @@ import { NullValueException } from "../exceptions/NullValue.exception";
 import { ValueObject } from "./valueObject.interface";
 
 export class UUID implements ValueObject {
-  public readonly _value: string;
+  private _value: string;
 
   constructor(value: string) {
     this._value = value;

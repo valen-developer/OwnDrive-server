@@ -23,4 +23,19 @@ export class UserFinder {
       validated: userDB.validated,
     });
   }
+
+  public async byUuid(uuid: string): Promise<User> {
+    const userDB = await this.userRepository.get(uuid);
+
+    if (!userDB) throw new Http4xxException("user not found", 404);
+
+    return new User({
+      email: userDB.email,
+      image: userDB.image,
+      name: userDB.name,
+      password: userDB.password,
+      uuid: userDB.uuid,
+      validated: userDB.validated,
+    });
+  }
 }
