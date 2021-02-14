@@ -10,7 +10,7 @@ export class User {
   public readonly email: UserEmail;
   public readonly password: UserPassword;
   public readonly image: UserImage;
-  public readonly validated: boolean;
+  private _validated: boolean;
 
   constructor({ uuid, name, email, password, image, validated }: UserObject) {
     this.uuid = new UUID(uuid);
@@ -18,7 +18,11 @@ export class User {
     this.email = new UserEmail(email);
     this.password = new UserPassword(password);
     this.image = new UserImage(image);
-    this.validated = validated;
+    this._validated = validated;
+  }
+
+  get validated(): boolean {
+    return this._validated;
   }
 
   public toObject(): UserObject {
@@ -40,6 +44,13 @@ export class User {
       name: this.name.value,
       validated: this.validated,
     };
+  }
+
+  public update(user: any) {
+    user.email ? this.email.setValue(user.email) : null;
+    user.image ? this.image.setValue(user.image) : null;
+    user.validated ? (this._validated = user.validated) : null;
+    user.name ? this.name.setValue(user.name) : null;
   }
 }
 

@@ -1,3 +1,3 @@
 export interface ValueObject {
-  value: any;
+  setValue(value: any): void;
 }

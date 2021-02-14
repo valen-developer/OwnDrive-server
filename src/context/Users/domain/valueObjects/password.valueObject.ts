@@ -3,18 +3,29 @@ import { NullValueException } from "../../../shared/domain/exceptions/NullValue.
 import { ValueObject } from "../../../shared/domain/valueObject/valueObject.interface";
 
 export class UserPassword implements ValueObject {
-  public readonly value: string;
+  private _value: string;
 
   constructor(value: string) {
-    this.value = value;
+    this._value = value;
     this.checkIfNull();
 
-    if (!UserPassword.isValidPassword(this.value))
+    if (!UserPassword.isValidPassword(this._value))
       throw new Http4xxException("invalid password", 400);
   }
 
+  get value(): string {
+    return this._value;
+  }
+
+  public setValue(value: string): void {
+    if (UserPassword.isValidPassword(value))
+      throw new Http4xxException("invalid Password", 400);
+
+    this._value = value;
+  }
+
   private checkIfNull(): void {
-    if (!this.value) throw new NullValueException("password", 400);
+    if (!this._value) throw new NullValueException("password", 400);
   }
 
   public static isValidPassword(value: string): boolean {
