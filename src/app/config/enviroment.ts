@@ -8,7 +8,7 @@ export const enviroment = {
     secure: true,
     auth: {
       user: process.env.MAILUSER || "valen7valverde@gmail.com",
-      pass: process.env.MAILPASSWORD || secret.mailPassword,
+      pass: process.env.MAILPASSWORD || "pass",
     },
   },
   MongoDB: {
