@@ -5,5 +5,5 @@ export interface UserRepository {
   get(uuid: string): Promise<any>;
   getByEmail(email: string): Promise<any>;
   delete(uuid: string): Promise<void>;
-  update(uuid: string, user: User): Promise<void>;
+  update(uuid: string, user: any): Promise<any>;
 }

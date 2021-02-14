@@ -1,36 +1,34 @@
 import { Request, Response } from "express";
 import { Crypt } from "../../../context/shared/domain/interfaces/crypt.interface";
-import { JWT } from "../../../context/shared/domain/interfaces/jsonwebtoken.interface";
-import { Signin } from "../../../context/Users/application/signinUser";
+import { UpdateUser } from "../../../context/Users/application/updateUser";
 import { UserRepository } from "../../../context/Users/domain/userRepository.interface";
-import { enviroment } from "../../config/enviroment";
+import { UserPassword } from "../../../context/Users/domain/valueObjects/password.valueObject";
 import { Controller } from "../controller.interface";
 
-export class SigninController implements Controller {
+export class ChangePasswordController implements Controller {
   private userRepository: UserRepository;
   private crypt: Crypt;
-  private jwt: JWT;
 
-  constructor(userRepository: UserRepository, crypt: Crypt, jwt: JWT) {
+  constructor(userRepository: UserRepository, crypt: Crypt) {
     this.userRepository = userRepository;
     this.crypt = crypt;
-    this.jwt = jwt;
   }
 
   public async run(req: Request, res: Response) {
-    const body = req.body;
+    const password = req.body.password;
+    const uuid = req.body.uuid;
 
     try {
-      const singinUser = new Signin(this.userRepository, this.crypt);
+      UserPassword.checkIfValidPassword(password);
 
-      const user = await singinUser.signin(body.email, body.password);
+      const updater = new UpdateUser(this.userRepository);
+      await updater.update(uuid, {
+        password: this.crypt.hashSync(password, 10),
+        validated: true,
+      });
 
       res.json({
         ok: true,
-        user,
-        token: this.jwt.sign(user, enviroment.token.seed, {
-          expiresIn: enviroment.token.expireIn,
-        }),
       });
     } catch (error) {
       let statusCode = 500;

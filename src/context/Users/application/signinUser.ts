@@ -30,7 +30,7 @@ export class Signin {
   }
 
   private validatePassword(user: User, password: string): boolean {
-    if (!user.isValidated) return user.password.value === password;
+    if (!user.validated) return user.password.value === password;
 
     console.log(this.crypt);
 

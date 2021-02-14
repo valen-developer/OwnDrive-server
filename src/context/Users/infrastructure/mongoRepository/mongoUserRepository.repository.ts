@@ -1,5 +1,8 @@
 import { User } from "../../domain/user.model";
-import { UserRepository } from "../../domain/userRepository.interface";
+import {
+  UpdatedUser,
+  UserRepository,
+} from "../../domain/userRepository.interface";
 
 import UserMongo from "./mongoUser.model";
 
@@ -21,7 +24,7 @@ export class MongoUserRepository implements UserRepository {
     await UserMongo.deleteOne({ uuid });
   }
 
-  public async update(uuid: string, user: User): Promise<void> {
-    await UserMongo.findOneAndUpdate({ uuid }, user.toObject());
+  public async update(uuid: string, user: UpdatedUser): Promise<any> {
+    return await UserMongo.findOneAndUpdate({ uuid }, user);
   }
 }

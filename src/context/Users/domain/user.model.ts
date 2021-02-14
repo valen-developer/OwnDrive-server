@@ -10,7 +10,7 @@ export class User {
   public readonly email: UserEmail;
   public readonly password: UserPassword;
   public readonly image: UserImage;
-  public readonly isValidated: boolean;
+  public readonly validated: boolean;
 
   constructor({ uuid, name, email, password, image, validated }: UserObject) {
     this.uuid = new UUID(uuid);
@@ -18,7 +18,7 @@ export class User {
     this.email = new UserEmail(email);
     this.password = new UserPassword(password);
     this.image = new UserImage(image);
-    this.isValidated = validated;
+    this.validated = validated;
   }
 
   public toObject(): UserObject {
@@ -28,7 +28,7 @@ export class User {
       password: this.password.value,
       email: this.email.value,
       image: this.image.value,
-      validated: this.isValidated,
+      validated: this.validated,
     };
   }
 
@@ -38,7 +38,7 @@ export class User {
       email: this.email.value,
       image: this.image.value,
       name: this.name.value,
-      validated: this.isValidated,
+      validated: this.validated,
     };
   }
 }

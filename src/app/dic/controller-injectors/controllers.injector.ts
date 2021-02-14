@@ -1,12 +1,8 @@
 import { IOC } from "dic-ioc";
-
-import { utilsDependencies, utilsInjector } from "../utils.injector";
-import { repositories } from "../repositories.injector";
-
-import { SigninController } from "../../controllers/auth/Singin.controller";
-import { SingupController } from "../../controllers/auth/SingUp.controller";
 import { authControllersInjector } from "./authcontroller.injector";
+import { usersControllerinjector } from "./usercontroller.injector";
 
+//TODO
 export enum controllers {
   SingupController = "SignupController",
   SigninController = "SinginController",
@@ -14,4 +10,5 @@ export enum controllers {
 
 export const controllerInjector = (container: IOC) => {
   authControllersInjector(container);
+  usersControllerinjector(container);
 };
