@@ -8,17 +8,17 @@ export class UserPassword implements ValueObject {
   constructor(value: string) {
     this.value = value;
     this.checkIfNull();
-    UserPassword.checkIfValidPassword(this.value);
+
+    if (UserPassword.isValidPassword(this.value))
+      throw new Http4xxException("invalid password", 400);
   }
 
   private checkIfNull(): void {
     if (!this.value) throw new NullValueException("password", 400);
   }
 
-  public static checkIfValidPassword(value: string): void {
+  public static isValidPassword(value: string): boolean {
     const regExp = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,20})/;
-    const isValid = regExp.test(value);
-
-    if (!isValid) throw new Http4xxException("invalid password", 400);
+    return regExp.test(value);
   }
 }

@@ -7,6 +7,7 @@ import { UpdateUser } from "../../../context/Users/application/updateUser";
 
 import { Crypt } from "../../../context/shared/domain/interfaces/crypt.interface";
 import { Controller } from "../controller.interface";
+import { Http4xxException } from "../../../context/shared/domain/exceptions/Http4xx.exception";
 
 export class ChangePasswordController implements Controller {
   private userRepository: UserRepository;
@@ -22,7 +23,7 @@ export class ChangePasswordController implements Controller {
     const uuid = req.body.uuid;
 
     try {
-      UserPassword.checkIfValidPassword(password);
+      this.verifyPassword(password);
 
       const updater = new UpdateUser(this.userRepository);
       await updater.update(uuid, {
@@ -43,5 +44,10 @@ export class ChangePasswordController implements Controller {
         error: error.message,
       });
     }
+  }
+
+  private verifyPassword(password: string): void {
+    if (!UserPassword.isValidPassword(password))
+      throw new Http4xxException("invalid password", 400);
   }
 }

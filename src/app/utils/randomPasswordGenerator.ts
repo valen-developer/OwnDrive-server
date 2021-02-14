@@ -11,11 +11,15 @@ export const generateRandomPassword = () => {
   const length = Math.floor(Math.random() * 12) + 8;
   let password = "";
 
-  for (let i = 0; i < length; i++) {
-    const selector = Math.floor(Math.random() * diccionary.length);
-    const randomChar = Math.floor(Math.random() * diccionary[selector].length);
+  while (!UserPassword.isValidPassword(password)) {
+    for (let i = 0; i < length; i++) {
+      const selector = Math.floor(Math.random() * diccionary.length);
+      const randomChar = Math.floor(
+        Math.random() * diccionary[selector].length
+      );
 
-    password += diccionary[selector].charAt(randomChar);
+      password += diccionary[selector].charAt(randomChar);
+    }
   }
 
   return password;
