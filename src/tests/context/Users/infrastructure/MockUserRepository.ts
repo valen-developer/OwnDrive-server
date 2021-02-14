@@ -1,4 +1,4 @@
-import { User } from "../../../../context/Users/domain/user.model";
+import { User, UserObject } from "../../../../context/Users/domain/user.model";
 import { UserRepository } from "../../../../context/Users/domain/userRepository.interface";
 
 export class MockUserRepository implements UserRepository {
@@ -21,12 +21,12 @@ export class MockUserRepository implements UserRepository {
   }
 
   public async update(uuid: string, user: any): Promise<any> {
-    let userDB: User | null = null;
+    let userDB: UserObject | null = null;
 
     this.users.forEach((userIn) => {
       if (userIn.uuid._value === uuid) {
         userIn.update(user);
-        userDB = userIn;
+        userDB = userIn.toObject();
       }
     });
 
