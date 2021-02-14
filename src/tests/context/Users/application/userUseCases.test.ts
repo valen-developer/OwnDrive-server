@@ -1,11 +1,17 @@
 import { generateRandomPassword } from "../../../../app/utils/randomPasswordGenerator";
 import { Http4xxException } from "../../../../context/shared/domain/exceptions/Http4xx.exception";
+import { NullValueException } from "../../../../context/shared/domain/exceptions/NullValue.exception";
+import { UserFinder } from "../../../../context/Users/application/findUser";
 import { UpdateUser } from "../../../../context/Users/application/updateUser";
 import { UserCreator } from "../../../../context/Users/application/userCreator";
-import { UserWithoutPassword } from "../../../../context/Users/domain/user.model";
+import {
+  User,
+  UserWithoutPassword,
+} from "../../../../context/Users/domain/user.model";
 import { MockUserRepository } from "../infrastructure/MockUserRepository";
 
 const mockUserRepository = new MockUserRepository();
+const uuidUserIn = "random uuid";
 
 describe("User Creator", () => {
   test("valid user shouldn´t throw any exception", async () => {
@@ -17,7 +23,7 @@ describe("User Creator", () => {
         image: null,
         name: "validName",
         password: generateRandomPassword(),
-        uuid: "random uuid",
+        uuid: uuidUserIn,
         validated: false,
       });
     };
@@ -79,6 +85,35 @@ describe("Update User", () => {
       const user = await update();
 
       expect(user.name).toBe(updatedName);
+    });
+  });
+});
+
+describe("User Finder", () => {
+  describe("when find a user which not exist", () => {
+    test("should throw null exception", async () => {
+      async function finder() {
+        const userFinder = new UserFinder(mockUserRepository);
+        const userDB = await userFinder.byUuid("not uuid");
+        return userDB;
+      }
+
+      await expect(finder()).rejects.toBeInstanceOf(Http4xxException);
+    });
+  });
+
+  describe("when user exits", () => {
+    test("should return valid user", async () => {
+      async function finder(): Promise<User | null> {
+        const userFinder = new UserFinder(mockUserRepository);
+        return await userFinder.byUuid(uuidUserIn);
+      }
+
+      await expect(finder()).resolves.not.toThrow();
+
+      const user = await finder();
+
+      expect(user).toBeInstanceOf(User);
     });
   });
 });

@@ -9,22 +9,40 @@ export class MockUserRepository implements UserRepository {
   }
 
   public async get(uuid: string): Promise<any> {
-    throw new Error("Method not implemented.");
+    let userDB: UserObject | null = null;
+
+    this.users.forEach((user) => {
+      if (user.uuid.value === uuid) userDB = user.toObject();
+    });
+
+    return userDB;
   }
 
   public async getByEmail(email: string): Promise<any> {
-    throw new Error("Method not implemented.");
+    let userDB: UserObject | null = null;
+
+    this.users.forEach((user) => {
+      if (user.email.value === email) userDB = user.toObject();
+    });
+
+    return userDB;
   }
 
   public async delete(uuid: string): Promise<void> {
-    throw new Error("Method not implemented.");
+    const auxUsers: User[] = [];
+
+    this.users.forEach((user) => {
+      if (!(user.uuid.value === uuid)) auxUsers.push(user);
+    });
+
+    this.users = auxUsers;
   }
 
   public async update(uuid: string, user: any): Promise<any> {
     let userDB: UserObject | null = null;
 
     this.users.forEach((userIn) => {
-      if (userIn.uuid._value === uuid) {
+      if (userIn.uuid.value === uuid) {
         userIn.update(user);
         userDB = userIn.toObject();
       }
