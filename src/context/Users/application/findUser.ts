@@ -2,7 +2,7 @@ import { Http4xxException } from "../../shared/domain/exceptions/Http4xx.excepti
 import { User } from "../domain/user.model";
 import { UserRepository } from "../domain/userRepository.interface";
 
-export class FinderUser {
+export class UserFinder {
   private userRepository: UserRepository;
 
   constructor(userRepository: UserRepository) {

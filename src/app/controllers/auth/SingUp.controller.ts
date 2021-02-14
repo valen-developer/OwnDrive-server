@@ -1,12 +1,14 @@
 import { Request, Response } from "express";
+
 import { Controller } from "../controller.interface";
+import { resetPasswordTemplate } from "../../templates/mail-templates/reset-password.template";
+import { enviroment } from "../../config/enviroment";
+import { generateRandomPassword } from "../../utils/randomPasswordGenerator";
 
 import { Mailer } from "../../../context/shared/domain/interfaces/mail.interface";
 import { UserRepository } from "../../../context/Users/domain/userRepository.interface";
 import { UserCreator } from "../../../context/Users/application/userCreator";
-import { resetPasswordTemplate } from "../../templates/mail-templates/reset-password.template";
-import { enviroment } from "../../config/enviroment";
-import { generateRandomPassword } from "../../utils/randomPasswordGenerator";
+
 import { NullValueException } from "../../../context/shared/domain/exceptions/NullValue.exception";
 
 export class SingupController implements Controller {
