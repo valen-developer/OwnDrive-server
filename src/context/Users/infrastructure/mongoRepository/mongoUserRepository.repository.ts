@@ -4,13 +4,17 @@ import { UserRepository } from "../../domain/userRepository.interface";
 import UserMongo from "./mongoUser.model";
 
 export class MongoUserRepository implements UserRepository {
+  public async get(uuid: string): Promise<any> {
+    return await UserMongo.find({ uuid });
+  }
+
+  public async getByEmail(email: string): Promise<any> {
+    return await UserMongo.findOne({ email });
+  }
+
   public async save(user: User): Promise<void> {
     const userMongo = new UserMongo(user.toObject());
     await userMongo.save();
-  }
-
-  public async get(uuid: string): Promise<any> {
-    return await UserMongo.find({ uuid });
   }
 
   public async delete(uuid: string): Promise<void> {
