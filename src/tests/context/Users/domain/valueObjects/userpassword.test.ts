@@ -21,14 +21,6 @@ describe("UserPassword ValueObject", () => {
       }).toThrow(Http4xxException);
     });
 
-    test("greater than 20 chars should throw a http exception", () => {
-      const big = "0123456AaBbCcDdFfGg?.¿";
-
-      expect(() => {
-        new UserPassword(big);
-      }).toThrow(Http4xxException);
-    });
-
     test("when don´t have number should throw a http exception", () => {
       const noNumberPassword = "AaBbCc?.¿";
 

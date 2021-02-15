@@ -3,6 +3,9 @@ import fileupload from "express-fileupload";
 import mongoose from "mongoose";
 import cors from "cors";
 
+import { setDotEnv } from "./app/config/setDotEnv";
+setDotEnv();
+
 import { Server } from "./app/server";
 
 import { enviroment } from "./app/config/enviroment";

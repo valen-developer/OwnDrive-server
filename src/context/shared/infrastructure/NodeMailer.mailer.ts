@@ -32,8 +32,6 @@ export class NodeMailer implements Mailer {
       html: template,
     };
 
-    const resp = await this.transporter.sendMail(mailOptions).catch((err) => {
-      console.log(err);
-    });
+    const resp = await this.transporter.sendMail(mailOptions);
   }
 }

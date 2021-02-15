@@ -45,5 +45,8 @@
       "/node_modules",
       "/src/"
     ]
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0"
   }
 }
