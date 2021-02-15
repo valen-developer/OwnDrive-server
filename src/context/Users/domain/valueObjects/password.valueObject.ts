@@ -29,7 +29,7 @@ export class UserPassword implements ValueObject {
   }
 
   public static isValidPassword(value: string): boolean {
-    const regExp = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,20})/;
-    return regExp.test(value) && value.length >= 8 && value.length <= 20;
+    const regExp = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]))/;
+    return regExp.test(value) && value.length >= 8;
   }
 }

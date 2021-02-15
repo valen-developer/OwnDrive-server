@@ -32,8 +32,6 @@ export class Signin {
   private validatePassword(user: User, password: string): boolean {
     if (!user.validated) return user.password.value === password;
 
-    console.log(this.crypt);
-
     const resp = this.crypt.compareSync(password, user.password.value);
 
     return resp;
