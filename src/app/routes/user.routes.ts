@@ -1,14 +1,14 @@
 import { Router } from "express";
+
+//Controllers
 import { ChangePasswordController } from "../controllers/user/chagePassword.controller";
 import { UploadUserImageController } from "../controllers/user/uploadImage.controller";
-import { getContainer } from "../dic/container";
 
+//Middlewares
 import { UserValidatedMiddleware } from "../middlewares/uservalidate.middleware";
 import { ValidateTokenMiddleware } from "../middlewares/validateToken.middleware";
 
 export const userRouter: Router = Router();
-
-const container = getContainer();
 
 //Middlewares
 const validateTokenMiddleware = new ValidateTokenMiddleware();
