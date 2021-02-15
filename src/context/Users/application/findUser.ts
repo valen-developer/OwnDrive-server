@@ -25,7 +25,8 @@ export class UserFinder {
   }
 
   public async byUuid(uuid: string): Promise<User> {
-    const userDB = await this.userRepository.get(uuid);
+    let userDB = await this.userRepository.get(uuid);
+    if (userDB instanceof Array) userDB = userDB[0];
 
     if (!userDB) throw new Http4xxException("user not found", 404);
 

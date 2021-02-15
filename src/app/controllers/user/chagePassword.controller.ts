@@ -8,26 +8,25 @@ import { UpdateUser } from "../../../context/Users/application/updateUser";
 import { Crypt } from "../../../context/shared/domain/interfaces/crypt.interface";
 import { Controller } from "../controller.interface";
 import { Http4xxException } from "../../../context/shared/domain/exceptions/Http4xx.exception";
+import { getContainer } from "../../dic/container";
+import { repositories } from "../../dic/repositories.injector";
+import { utilsDependencies } from "../../dic/utils.injector";
 
 export class ChangePasswordController implements Controller {
-  private userRepository: UserRepository;
-  private crypt: Crypt;
-
-  constructor(userRepository: UserRepository, crypt: Crypt) {
-    this.userRepository = userRepository;
-    this.crypt = crypt;
-  }
-
   public async run(req: Request, res: Response) {
     const password = req.body.password;
     const uuid = req.body.uuid;
 
     try {
+      const container = getContainer();
+      const userRepository = container.get(repositories.MongoUserRepository);
+      const crypt = container.get(utilsDependencies.BCRYPT);
+
       this.verifyPassword(password);
 
-      const updater = new UpdateUser(this.userRepository);
+      const updater = new UpdateUser(userRepository);
       await updater.update(uuid, {
-        password: this.crypt.hashSync(password, 10),
+        password: crypt.hashSync(password, 10),
         validated: true,
       });
 

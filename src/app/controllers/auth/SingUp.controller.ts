@@ -13,31 +13,25 @@ import { UserCreator } from "../../../context/Users/application/userCreator";
 import { NullValueException } from "../../../context/shared/domain/exceptions/NullValue.exception";
 import { DirCreator } from "../../../context/Storage/domain/interfaces/DirCreator.interface";
 import { storage } from "../../config/storage";
+import { getContainer } from "../../dic/container";
+import { repositories } from "../../dic/repositories.injector";
+import { utilsDependencies } from "../../dic/utils.injector";
 
 export class SingupController implements Controller {
-  private mailer: Mailer;
-  private userRepository: UserRepository;
-  private dirCreator: DirCreator;
-
-  constructor(
-    mailer: Mailer,
-    userRepository: UserRepository,
-    dirCreator: DirCreator
-  ) {
-    this.mailer = mailer;
-    this.userRepository = userRepository;
-    this.dirCreator = dirCreator;
-  }
-
   public async run(req: Request, res: Response) {
     const body = req.body;
 
     const randomPassword = generateRandomPassword();
 
     try {
-      await this.sendPassword(body.email, body.name, randomPassword);
+      const container = getContainer();
+      const userRepository = container.get(repositories.MongoUserRepository);
+      const mailer = container.get(utilsDependencies.NodeMailer);
+      const dirCreator = container.get(utilsDependencies.FSDirCreator);
 
-      const userCreator = new UserCreator(this.userRepository);
+      await this.sendPassword(mailer, body.email, body.name, randomPassword);
+
+      const userCreator = new UserCreator(userRepository);
       await userCreator.create({
         uuid: body.uuid,
         name: body.name,
@@ -47,7 +41,7 @@ export class SingupController implements Controller {
         validated: false,
       });
 
-      this.dirCreator.create(storage.path, body.email);
+      dirCreator.create(storage.path, body.email);
 
       res.status(201).json({
         ok: true,
@@ -65,13 +59,14 @@ export class SingupController implements Controller {
   }
 
   private async sendPassword(
+    mailer: Mailer,
     email: string,
     name: string,
     randomPassword: string
   ): Promise<void> {
     if (!(email && name)) throw new NullValueException("name and email", 400);
 
-    await this.mailer.send(
+    await mailer.send(
       email,
       enviroment.mailer.auth.user,
       "OWN DRIVE - YOUR PASSWORD",

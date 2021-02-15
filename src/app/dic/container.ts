@@ -1,5 +1,4 @@
 import { IOC } from "dic-ioc";
-import { controllerInjector } from "./controller-injectors/controllers.injector";
 import { repositoriesInjector } from "./repositories.injector";
 import { utilsDependencies, utilsInjector } from "./utils.injector";
 
@@ -8,7 +7,6 @@ export const getContainer = () => {
 
   utilsInjector(container);
   repositoriesInjector(container);
-  controllerInjector(container);
 
   return container;
 };

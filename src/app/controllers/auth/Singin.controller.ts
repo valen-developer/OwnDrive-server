@@ -1,34 +1,32 @@
 import { Request, Response } from "express";
-import { Crypt } from "../../../context/shared/domain/interfaces/crypt.interface";
-import { JWT } from "../../../context/shared/domain/interfaces/jsonwebtoken.interface";
-import { Signin } from "../../../context/Users/application/signinUser";
-import { UserRepository } from "../../../context/Users/domain/userRepository.interface";
+
 import { enviroment } from "../../config/enviroment";
+
+import { getContainer } from "../../dic/container";
+import { repositories } from "../../dic/repositories.injector";
+import { utilsDependencies } from "../../dic/utils.injector";
+
+import { Signin } from "../../../context/Users/application/signinUser";
+
 import { Controller } from "../controller.interface";
 
 export class SigninController implements Controller {
-  private userRepository: UserRepository;
-  private crypt: Crypt;
-  private jwt: JWT;
-
-  constructor(userRepository: UserRepository, crypt: Crypt, jwt: JWT) {
-    this.userRepository = userRepository;
-    this.crypt = crypt;
-    this.jwt = jwt;
-  }
-
   public async run(req: Request, res: Response) {
     const body = req.body;
 
     try {
-      const singinUser = new Signin(this.userRepository, this.crypt);
+      const container = getContainer();
+      const userRepository = container.get(repositories.MongoUserRepository);
+      const crypt = container.get(utilsDependencies.BCRYPT);
+      const jwt = container.get(utilsDependencies.JSONWEBTOKEN);
 
+      const singinUser = new Signin(userRepository, crypt);
       const user = await singinUser.signin(body.email, body.password);
 
       res.json({
         ok: true,
         user,
-        token: this.jwt.sign(user, enviroment.token.seed, {
+        token: jwt.sign(user, enviroment.token.seed, {
           expiresIn: enviroment.token.expireIn,
         }),
       });
