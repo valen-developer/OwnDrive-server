@@ -16,7 +16,6 @@ const server = new Server(enviroment.port);
 server.app.use(urlencoded({ extended: false }));
 server.app.use(json());
 server.app.use(cors());
-
 server.app.use(fileupload());
 
 server.app.use(router);

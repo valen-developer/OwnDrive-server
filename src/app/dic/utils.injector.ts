@@ -2,7 +2,7 @@ import { IOC } from "dic-ioc";
 import { Bcrypt } from "../../context/shared/application/bcrypt.crypt";
 import { JSONWEBTOKEN } from "../../context/shared/application/jsonwebtoken.jwt";
 import { NodeMailer } from "../../context/shared/infrastructure/NodeMailer.mailer";
-import { FSDirCreator } from "../../context/Storage/infrastructure/fs.dirCreator";
+import { DirCreator } from "../../context/Storage/application/dirCreator";
 
 export enum utilsDependencies {
   NodeMailer = "NodeMailer",
@@ -19,10 +19,5 @@ export const utilsInjector = (container: IOC) => {
   container.setService(
     utilsDependencies.JSONWEBTOKEN,
     () => new JSONWEBTOKEN()
-  );
-
-  container.setService(
-    utilsDependencies.FSDirCreator,
-    () => new FSDirCreator()
   );
 };

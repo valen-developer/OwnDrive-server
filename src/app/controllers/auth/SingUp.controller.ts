@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import path from "path";
 
 import { Controller } from "../controller.interface";
 import { resetPasswordTemplate } from "../../templates/mail-templates/reset-password.template";
@@ -7,15 +6,16 @@ import { enviroment } from "../../config/enviroment";
 import { generateRandomPassword } from "../../utils/randomPasswordGenerator";
 
 import { Mailer } from "../../../context/shared/domain/interfaces/mail.interface";
-import { UserRepository } from "../../../context/Users/domain/userRepository.interface";
 import { UserCreator } from "../../../context/Users/application/userCreator";
 
 import { NullValueException } from "../../../context/shared/domain/exceptions/NullValue.exception";
-import { DirCreator } from "../../../context/Storage/domain/interfaces/DirCreator.interface";
 import { storage } from "../../config/storage";
 import { getContainer } from "../../dic/container";
 import { repositories } from "../../dic/repositories.injector";
 import { utilsDependencies } from "../../dic/utils.injector";
+import { UserRepository } from "../../../context/Users/domain/userRepository.interface";
+import { IOC } from "dic-ioc";
+import { DirCreator } from "../../../context/Storage/application/dirCreator";
 
 export class SingupController implements Controller {
   public async run(req: Request, res: Response) {
@@ -24,10 +24,10 @@ export class SingupController implements Controller {
     const randomPassword = generateRandomPassword();
 
     try {
-      const container = getContainer();
+      const dirCreator: DirCreator = new DirCreator();
+      const container: IOC = getContainer();
       const userRepository = container.get(repositories.MongoUserRepository);
-      const mailer = container.get(utilsDependencies.NodeMailer);
-      const dirCreator = container.get(utilsDependencies.FSDirCreator);
+      const mailer: Mailer = container.get(utilsDependencies.NodeMailer);
 
       await this.sendPassword(mailer, body.email, body.name, randomPassword);
 
@@ -41,7 +41,7 @@ export class SingupController implements Controller {
         validated: false,
       });
 
-      dirCreator.create(storage.path, body.email);
+      dirCreator.createDir(storage.path, body.email);
 
       res.status(201).json({
         ok: true,
