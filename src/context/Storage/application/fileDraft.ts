@@ -1,17 +1,17 @@
 import { Http4xxException } from "../../shared/domain/exceptions/Http4xx.exception";
-import { DirRepository } from "../domain/intrefaces/DirRepository.interface";
+import { FileRepository } from "../domain/intrefaces/FileRepository.interface";
 
 export class FileDraft {
-  private dirRepository: DirRepository;
+  private fileRepository: FileRepository;
 
-  constructor(dirRepository: DirRepository) {
-    this.dirRepository = dirRepository;
+  constructor(fileRepository: FileRepository) {
+    this.fileRepository = fileRepository;
   }
 
   public delete(path: string): void {
-    if (!this.dirRepository.exists(path))
+    if (!this.fileRepository.exists(path))
       throw new Http4xxException("file not exits", 400);
 
-    this.dirRepository.deleteFile(path);
+    this.fileRepository.delete(path);
   }
 }
