@@ -23,7 +23,7 @@ export class FilesAndDirsLister {
     };
   }
 
-  private getStats(data: any[], type: string): any {
+  private getStats(data: string[], type: string): any {
     const stats: any = [];
 
     data.forEach((d) => {

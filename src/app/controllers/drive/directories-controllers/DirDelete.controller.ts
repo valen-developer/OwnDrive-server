@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { DirDraft } from "../../../context/Storage/application/dirDraft";
-import { Controller } from "../controller.interface";
+import { DirDraft } from "../../../../context/Storage/application/dirDraft";
+import { Controller } from "../../controller.interface";
 
 import path from "path";
-import { storage } from "../../config/storage";
+import { storage } from "../../../config/storage";
 
 export class DirDeleteController implements Controller {
   public run(req: Request, res: Response): void {

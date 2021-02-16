@@ -1,12 +1,10 @@
 import { Request, Response } from "express";
 
-import { errorReponseHandler } from "../../utils/errorResponseHandler";
-
-import { FilesAndDirsLister } from "../../../context/Storage/application/filesAndDirsLister";
-import { Controller } from "../controller.interface";
-
 import path from "path";
-import { storage } from "../../config/storage";
+import { FilesAndDirsLister } from "../../../../context/Storage/application/filesAndDirsLister";
+import { storage } from "../../../config/storage";
+import { errorReponseHandler } from "../../../utils/errorResponseHandler";
+import { Controller } from "../../controller.interface";
 
 export class GetFilesAndDirsController implements Controller {
   public run(req: Request, res: Response): void {

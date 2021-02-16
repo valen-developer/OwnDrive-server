@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { DirCreator } from "../../../context/Storage/application/dirCreator";
-import { storage } from "../../config/storage";
-import { errorReponseHandler } from "../../utils/errorResponseHandler";
-import { Controller } from "../controller.interface";
+import { DirCreator } from "../../../../context/Storage/application/dirCreator";
+import { storage } from "../../../config/storage";
+import { errorReponseHandler } from "../../../utils/errorResponseHandler";
+import { Controller } from "../../controller.interface";
 
 import path from "path";
 

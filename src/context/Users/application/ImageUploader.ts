@@ -1,7 +1,7 @@
 import { UploadedFile, FileArray } from "express-fileupload";
 import path from "path";
 
-import { ImageUploader as ImageUploader } from "../domain/interfaces/fileUploader.interface";
+import { ImageUploader } from "../domain/interfaces/fileUploader.interface";
 
 import { Http4xxException } from "../../shared/domain/exceptions/Http4xx.exception";
 import { storage } from "../../../app/config/storage";
