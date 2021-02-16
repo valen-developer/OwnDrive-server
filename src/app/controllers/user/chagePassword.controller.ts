@@ -11,7 +11,7 @@ import { Http4xxException } from "../../../context/shared/domain/exceptions/Http
 import { getContainer } from "../../dic/container";
 import { repositories } from "../../dic/repositories.injector";
 import { utilsDependencies } from "../../dic/utils.injector";
-import { useCasesDependencies } from "../../dic/userUseCases.injector";
+import { userUseCaseDependencies } from "../../dic/userUseCases.injector";
 
 export class ChangePasswordController implements Controller {
   public async run(req: Request, res: Response) {
@@ -24,7 +24,7 @@ export class ChangePasswordController implements Controller {
 
       this.verifyPassword(password);
 
-      const updater = container.get(useCasesDependencies.UpdateUser);
+      const updater = container.get(userUseCaseDependencies.UpdateUser);
       await updater.update(uuid, {
         password: crypt.hashSync(password, 10),
         validated: true,

@@ -9,7 +9,8 @@ import { utilsDependencies } from "../../dic/utils.injector";
 import { Signin } from "../../../context/Users/application/signinUser";
 
 import { Controller } from "../controller.interface";
-import { useCasesDependencies } from "../../dic/userUseCases.injector";
+import { userUseCaseDependencies } from "../../dic/userUseCases.injector";
+import { errorReponseHandler } from "../../utils/errorResponseHandler";
 
 export class SigninController implements Controller {
   public async run(req: Request, res: Response) {
@@ -19,7 +20,7 @@ export class SigninController implements Controller {
       const container = getContainer();
       const jwt = container.get(utilsDependencies.JSONWEBTOKEN);
 
-      const singinUser = container.get(useCasesDependencies.Signin);
+      const singinUser = container.get(userUseCaseDependencies.Signin);
       const user = await singinUser.signin(body.email, body.password);
 
       res.json({
@@ -30,14 +31,7 @@ export class SigninController implements Controller {
         }),
       });
     } catch (error) {
-      let statusCode = 500;
-
-      if (error.statusCode) statusCode = error.statusCode;
-
-      res.status(statusCode).json({
-        ok: false,
-        error: error.message,
-      });
+      errorReponseHandler(error, res);
     }
   }
 }

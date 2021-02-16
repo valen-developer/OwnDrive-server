@@ -16,7 +16,12 @@ import { utilsDependencies } from "../../dic/utils.injector";
 import { UserRepository } from "../../../context/Users/domain/userRepository.interface";
 import { IOC } from "dic-ioc";
 import { DirCreator } from "../../../context/Storage/application/dirCreator";
-import { useCasesDependencies } from "../../dic/userUseCases.injector";
+import {
+  userUseCaseDependencies,
+  userUserCasesInjector,
+} from "../../dic/userUseCases.injector";
+import { storageUseCasesDependencies } from "../../dic/storageUseCases.injector";
+import { errorReponseHandler } from "../../utils/errorResponseHandler";
 
 export class SingupController implements Controller {
   public async run(req: Request, res: Response) {
@@ -25,13 +30,10 @@ export class SingupController implements Controller {
     const randomPassword = generateRandomPassword();
 
     try {
-      const dirCreator: DirCreator = new DirCreator();
       const container: IOC = getContainer();
-      const mailer: Mailer = container.get(utilsDependencies.NodeMailer);
 
-      await this.sendPassword(mailer, body.email, body.name, randomPassword);
-
-      const userCreator = container.get(useCasesDependencies.UserCreator);
+      //Create User
+      const userCreator = container.get(userUseCaseDependencies.UserCreator);
       await userCreator.create({
         uuid: body.uuid,
         name: body.name,
@@ -41,20 +43,21 @@ export class SingupController implements Controller {
         validated: false,
       });
 
+      //Create Dir
+      const dirCreator: DirCreator = container.get(
+        storageUseCasesDependencies.DirCreator
+      );
       dirCreator.createDir(storage.path, body.email);
+
+      //Send Email
+      const mailer: Mailer = container.get(utilsDependencies.NodeMailer);
+      await this.sendPassword(mailer, body.email, body.name, randomPassword);
 
       res.status(201).json({
         ok: true,
       });
     } catch (error) {
-      let statusCode = 500;
-
-      if (error.statusCode) statusCode = error.statusCode;
-
-      res.status(statusCode).json({
-        ok: false,
-        error: error.message,
-      });
+      errorReponseHandler(error, res);
     }
   }
 

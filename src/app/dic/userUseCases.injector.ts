@@ -6,7 +6,7 @@ import { UserCreator } from "../../context/Users/application/userCreator";
 import { repositories } from "./repositories.injector";
 import { utilsDependencies } from "./utils.injector";
 
-export enum useCasesDependencies {
+export enum userUseCaseDependencies {
   Signin = "Signin",
   UserCreator = "UserCreator",
   UpdateUser = "UpdateUser",
@@ -14,7 +14,7 @@ export enum useCasesDependencies {
 
 export const userUserCasesInjector = (container: IOC) => {
   container.setService(
-    useCasesDependencies.Signin,
+    userUseCaseDependencies.Signin,
     (c) =>
       new Signin(
         c.get(repositories.MongoUserRepository),
@@ -23,12 +23,12 @@ export const userUserCasesInjector = (container: IOC) => {
   );
 
   container.setService(
-    useCasesDependencies.UserCreator,
+    userUseCaseDependencies.UserCreator,
     (c) => new UserCreator(c.get(repositories.MongoUserRepository))
   );
 
   container.setService(
-    useCasesDependencies.UpdateUser,
+    userUseCaseDependencies.UpdateUser,
     (c) => new UpdateUser(c.get(repositories.MongoUserRepository))
   );
 };
