@@ -1,13 +1,15 @@
 import { Response, Request } from "express";
-import { FileUploader } from "../../../../context/Storage/application/fileUploader";
-import { errorReponseHandler } from "../../../utils/errorResponseHandler";
-import { Controller } from "../../controller.interface";
-
 import path from "path";
+
+import { errorReponseHandler } from "../../../utils/errorResponseHandler";
 import { storage } from "../../../config/storage";
+
 import { getContainer } from "../../../dic/container";
 import { storageUseCasesDependencies } from "../../../dic/storageUseCases.injector";
 
+import { Controller } from "../../controller.interface";
+
+import { FileUploader } from "../../../../context/Storage/application/files/fileUploader";
 export class FileUploadController implements Controller {
   public async run(req: Request, res: Response): Promise<void> {
     const files = req.files;

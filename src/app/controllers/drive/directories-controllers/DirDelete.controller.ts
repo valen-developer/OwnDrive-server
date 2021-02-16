@@ -1,13 +1,15 @@
 import { Request, Response } from "express";
-import { DirDraft } from "../../../../context/Storage/application/dirDraft";
-import { Controller } from "../../controller.interface";
-
 import path from "path";
-import { storage } from "../../../config/storage";
+
 import { getContainer } from "../../../dic/container";
 import { storageUseCasesDependencies } from "../../../dic/storageUseCases.injector";
-import { errorReponseHandler } from "../../../utils/errorResponseHandler";
 
+import { errorReponseHandler } from "../../../utils/errorResponseHandler";
+import { storage } from "../../../config/storage";
+
+import { Controller } from "../../controller.interface";
+
+import { DirDraft } from "../../../../context/Storage/application/dirs/dirDraft";
 export class DirDeleteController implements Controller {
   public run(req: Request, res: Response): void {
     const pathTo = req.body.path;

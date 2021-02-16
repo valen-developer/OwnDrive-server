@@ -1,12 +1,15 @@
 import { Request, Response } from "express";
-import { DirCreator } from "../../../../context/Storage/application/dirCreator";
-import { storage } from "../../../config/storage";
-import { errorReponseHandler } from "../../../utils/errorResponseHandler";
-import { Controller } from "../../controller.interface";
-
 import path from "path";
+
 import { getContainer } from "../../../dic/container";
 import { storageUseCasesDependencies } from "../../../dic/storageUseCases.injector";
+
+import { errorReponseHandler } from "../../../utils/errorResponseHandler";
+import { storage } from "../../../config/storage";
+
+import { Controller } from "../../controller.interface";
+
+import { DirCreator } from "../../../../context/Storage/application/dirs/dirCreator";
 
 export class CreateDirController implements Controller {
   public run(req: Request, res: Response): void {

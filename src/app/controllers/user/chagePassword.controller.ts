@@ -1,18 +1,13 @@
 import { Request, Response } from "express";
 
-import { UserRepository } from "../../../context/Users/domain/userRepository.interface";
-import { UserPassword } from "../../../context/Users/domain/valueObjects/password.valueObject";
-
-import { UpdateUser } from "../../../context/Users/application/updateUser";
-
-import { Crypt } from "../../../context/shared/domain/interfaces/crypt.interface";
-import { Controller } from "../controller.interface";
-import { Http4xxException } from "../../../context/shared/domain/exceptions/Http4xx.exception";
 import { getContainer } from "../../dic/container";
-import { repositories } from "../../dic/repositories.injector";
 import { utilsDependencies } from "../../dic/utils.injector";
 import { userUseCaseDependencies } from "../../dic/userUseCases.injector";
 
+import { UserPassword } from "../../../context/Users/domain/valueObjects/password.valueObject";
+import { Http4xxException } from "../../../context/shared/domain/exceptions/Http4xx.exception";
+
+import { Controller } from "../controller.interface";
 export class ChangePasswordController implements Controller {
   public async run(req: Request, res: Response) {
     const password = req.body.password;

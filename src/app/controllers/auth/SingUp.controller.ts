@@ -1,27 +1,22 @@
 import { Request, Response } from "express";
 
-import { Controller } from "../controller.interface";
 import { resetPasswordTemplate } from "../../templates/mail-templates/reset-password.template";
-import { enviroment } from "../../config/enviroment";
 import { generateRandomPassword } from "../../utils/randomPasswordGenerator";
+import { errorReponseHandler } from "../../utils/errorResponseHandler";
+import { enviroment } from "../../config/enviroment";
+import { storage } from "../../config/storage";
 
-import { Mailer } from "../../../context/shared/domain/interfaces/mail.interface";
-import { UserCreator } from "../../../context/Users/application/userCreator";
+import { IOC } from "dic-ioc";
+import { getContainer } from "../../dic/container";
+import { utilsDependencies } from "../../dic/utils.injector";
+import { userUseCaseDependencies } from "../../dic/userUseCases.injector";
+import { storageUseCasesDependencies } from "../../dic/storageUseCases.injector";
 
 import { NullValueException } from "../../../context/shared/domain/exceptions/NullValue.exception";
-import { storage } from "../../config/storage";
-import { getContainer } from "../../dic/container";
-import { repositories } from "../../dic/repositories.injector";
-import { utilsDependencies } from "../../dic/utils.injector";
-import { UserRepository } from "../../../context/Users/domain/userRepository.interface";
-import { IOC } from "dic-ioc";
-import { DirCreator } from "../../../context/Storage/application/dirCreator";
-import {
-  userUseCaseDependencies,
-  userUserCasesInjector,
-} from "../../dic/userUseCases.injector";
-import { storageUseCasesDependencies } from "../../dic/storageUseCases.injector";
-import { errorReponseHandler } from "../../utils/errorResponseHandler";
+import { Controller } from "../controller.interface";
+import { Mailer } from "../../../context/shared/domain/interfaces/mail.interface";
+
+import { DirCreator } from "../../../context/Storage/application/dirs/dirCreator";
 
 export class SingupController implements Controller {
   public async run(req: Request, res: Response) {

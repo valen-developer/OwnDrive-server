@@ -1,11 +1,10 @@
 import { Request, Response } from "express";
 
-import { ImageUploaderExpress } from "../../../context/Users/application/ImageUploader";
-import { UpdateUser } from "../../../context/Users/application/updateUser";
-import { UserRepository } from "../../../context/Users/domain/userRepository.interface";
 import { getContainer } from "../../dic/container";
-import { repositories } from "../../dic/repositories.injector";
 import { userUseCaseDependencies } from "../../dic/userUseCases.injector";
+
+import { ImageUploaderExpress } from "../../../context/Users/application/ImageUploader";
+
 import { Controller } from "../controller.interface";
 
 export class UploadUserImageController implements Controller {

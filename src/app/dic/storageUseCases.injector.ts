@@ -1,10 +1,12 @@
 import { IOC } from "dic-ioc";
-import { DirCreator } from "../../context/Storage/application/dirCreator";
-import { DirDraft } from "../../context/Storage/application/dirDraft";
-import { FileDraft } from "../../context/Storage/application/fileDraft";
-import { FilesAndDirsLister } from "../../context/Storage/application/filesAndDirsLister";
-import { FileUploader as FileUploader } from "../../context/Storage/application/fileUploader";
 import { repositories } from "./repositories.injector";
+
+import { DirCreator } from "../../context/Storage/application/dirs/dirCreator";
+import { DirDraft } from "../../context/Storage/application/dirs/dirDraft";
+
+import { FileDraft } from "../../context/Storage/application/files/fileDraft";
+import { FileUploader } from "../../context/Storage/application/files/fileUploader";
+import { FilesAndDirsLister } from "../../context/Storage/application/files/filesAndDirsLister";
 
 export enum storageUseCasesDependencies {
   DirCreator = "DirCreator",
