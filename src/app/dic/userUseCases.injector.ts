@@ -1,4 +1,5 @@
 import { IOC } from "dic-ioc";
+import { DirDraft } from "../../context/Storage/application/dirDraft";
 import { Signin } from "../../context/Users/application/signinUser";
 import { UpdateUser } from "../../context/Users/application/updateUser";
 import { UserCreator } from "../../context/Users/application/userCreator";
@@ -11,7 +12,7 @@ export enum useCasesDependencies {
   UpdateUser = "UpdateUser",
 }
 
-export const usesCasesInjector = (container: IOC) => {
+export const userUserCasesInjector = (container: IOC) => {
   container.setService(
     useCasesDependencies.Signin,
     (c) =>

@@ -6,7 +6,7 @@ import path from "path";
 import fs from "fs";
 import { FileRepository } from "../domain/intrefaces/FileRepository.interface";
 
-export class FileUploaderExpress {
+export class FileUploader {
   private fileRepository: FileRepository;
 
   constructor(fileRepository: FileRepository) {

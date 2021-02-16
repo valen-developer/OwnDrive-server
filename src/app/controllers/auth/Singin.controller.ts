@@ -9,7 +9,7 @@ import { utilsDependencies } from "../../dic/utils.injector";
 import { Signin } from "../../../context/Users/application/signinUser";
 
 import { Controller } from "../controller.interface";
-import { useCasesDependencies } from "../../dic/useCases.injector";
+import { useCasesDependencies } from "../../dic/userUseCases.injector";
 
 export class SigninController implements Controller {
   public async run(req: Request, res: Response) {

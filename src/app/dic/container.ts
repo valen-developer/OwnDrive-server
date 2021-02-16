@@ -1,6 +1,7 @@
 import { IOC } from "dic-ioc";
 import { repositoriesInjector } from "./repositories.injector";
-import { usesCasesInjector } from "./useCases.injector";
+import { storageUsesCasesInjector } from "./storageUseCases.injector";
+import { userUserCasesInjector } from "./userUseCases.injector";
 import { utilsInjector } from "./utils.injector";
 
 export const getContainer = () => {
@@ -8,7 +9,8 @@ export const getContainer = () => {
 
   utilsInjector(container);
   repositoriesInjector(container);
-  usesCasesInjector(container);
+  userUserCasesInjector(container);
+  storageUsesCasesInjector(container);
 
   return container;
 };

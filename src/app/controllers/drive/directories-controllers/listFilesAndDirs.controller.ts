@@ -3,6 +3,8 @@ import { Request, Response } from "express";
 import path from "path";
 import { FilesAndDirsLister } from "../../../../context/Storage/application/filesAndDirsLister";
 import { storage } from "../../../config/storage";
+import { getContainer } from "../../../dic/container";
+import { storageUseCasesDependencies } from "../../../dic/storageUseCases.injector";
 import { errorReponseHandler } from "../../../utils/errorResponseHandler";
 import { Controller } from "../../controller.interface";
 
@@ -12,7 +14,11 @@ export class GetFilesAndDirsController implements Controller {
     const email = req.body.email;
 
     try {
-      const lister = new FilesAndDirsLister();
+      const container = getContainer();
+      const lister: FilesAndDirsLister = container.get(
+        storageUseCasesDependencies.FilesAndDirsLister
+      );
+
       const data = lister.list(path.join(storage.path, email, pathTo));
 
       res.json({

@@ -11,7 +11,7 @@ import { Http4xxException } from "../../../context/shared/domain/exceptions/Http
 import { getContainer } from "../../dic/container";
 import { repositories } from "../../dic/repositories.injector";
 import { utilsDependencies } from "../../dic/utils.injector";
-import { useCasesDependencies } from "../../dic/useCases.injector";
+import { useCasesDependencies } from "../../dic/userUseCases.injector";
 
 export class ChangePasswordController implements Controller {
   public async run(req: Request, res: Response) {

@@ -5,7 +5,7 @@ import { UpdateUser } from "../../../context/Users/application/updateUser";
 import { UserRepository } from "../../../context/Users/domain/userRepository.interface";
 import { getContainer } from "../../dic/container";
 import { repositories } from "../../dic/repositories.injector";
-import { useCasesDependencies } from "../../dic/useCases.injector";
+import { useCasesDependencies } from "../../dic/userUseCases.injector";
 import { Controller } from "../controller.interface";
 
 export class UploadUserImageController implements Controller {

@@ -4,6 +4,9 @@ import { Controller } from "../../controller.interface";
 
 import path from "path";
 import { storage } from "../../../config/storage";
+import { getContainer } from "../../../dic/container";
+import { storageUseCasesDependencies } from "../../../dic/storageUseCases.injector";
+import { errorReponseHandler } from "../../../utils/errorResponseHandler";
 
 export class DirDeleteController implements Controller {
   public run(req: Request, res: Response): void {
@@ -11,16 +14,16 @@ export class DirDeleteController implements Controller {
     const email = req.body.email;
 
     try {
-      const dirDraft = new DirDraft();
+      const container = getContainer();
+      const dirDraft: DirDraft = container.get(
+        storageUseCasesDependencies.DirDraft
+      );
 
       dirDraft.delete(path.join(storage.path, email, pathTo));
 
       res.json({ ok: true });
     } catch (error) {
-      console.log(error);
-      res.json({
-        error: error.message,
-      });
+      errorReponseHandler(error, res);
     }
   }
 }

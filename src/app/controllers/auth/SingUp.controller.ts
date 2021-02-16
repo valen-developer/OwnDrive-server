@@ -16,7 +16,7 @@ import { utilsDependencies } from "../../dic/utils.injector";
 import { UserRepository } from "../../../context/Users/domain/userRepository.interface";
 import { IOC } from "dic-ioc";
 import { DirCreator } from "../../../context/Storage/application/dirCreator";
-import { useCasesDependencies } from "../../dic/useCases.injector";
+import { useCasesDependencies } from "../../dic/userUseCases.injector";
 
 export class SingupController implements Controller {
   public async run(req: Request, res: Response) {
