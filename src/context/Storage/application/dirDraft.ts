@@ -1,8 +1,14 @@
 import fs from "fs";
+import { DirRepository } from "../domain/intrefaces/DirRepository.interface";
 
 export class DirDraft {
+  private dirRepository: DirRepository;
+
+  constructor(dirRepository: DirRepository) {
+    this.dirRepository = dirRepository;
+  }
+
   delete(path: string): void {
-    //TODO: deprecated
-    fs.rmdirSync(path, { recursive: true });
+    this.dirRepository.deleteDir(path);
   }
 }

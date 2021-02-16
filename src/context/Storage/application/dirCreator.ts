@@ -1,28 +1,19 @@
 import fs from "fs";
 import path from "path";
+import { driveRouter } from "../../../app/routes/drive.routes";
 import { Http4xxException } from "../../shared/domain/exceptions/Http4xx.exception";
+import { DirRepository } from "../domain/intrefaces/DirRepository.interface";
 
 export class DirCreator {
-  createDir(pathToSave: string, name: string): void {
-    const fullPath = path.join(pathToSave, name);
+  private dirRepository: DirRepository;
 
-    const isCreated = this.createFullPath(fullPath);
-
-    if (!isCreated) throw new Http4xxException("dir can´t be created", 500);
+  constructor(dirRepository: DirRepository) {
+    this.dirRepository = dirRepository;
   }
 
-  private createFullPath(fullPath: string): boolean {
-    let parts = fullPath.split("/");
-    let pathToTest = parts[0];
+  createDir(pathToSave: string, name: string): void {
+    const isCreated = this.dirRepository.createDir(pathToSave, name);
 
-    for (let index = 1; index <= parts.length; index++) {
-      if (!fs.existsSync(pathToTest) && pathToTest) {
-        fs.mkdirSync(pathToTest);
-      }
-
-      pathToTest += `/${parts[index]}`;
-    }
-
-    return fs.existsSync(fullPath);
+    if (!isCreated) throw new Http4xxException("dir can´t be created", 500);
   }
 }

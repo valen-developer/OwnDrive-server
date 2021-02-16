@@ -4,11 +4,10 @@ import path from "path";
 import { DirRepository } from "../domain/intrefaces/DirRepository.interface";
 
 export class FSDirRepository implements DirRepository {
-  createDir(path: string): void {
-    throw new Error("Method not implemented.");
-  }
-  deleteDir(paht: string): void {
-    throw new Error("Method not implemented.");
+  public createDir(pathTo: string, name: string): boolean {
+    const fullPath = path.join(pathTo, name);
+
+    return this.createFullPath(fullPath);
   }
 
   public list(pathFrom: string) {
@@ -28,7 +27,16 @@ export class FSDirRepository implements DirRepository {
     };
   }
 
-  exists(path: string): boolean {
+  public deleteDir(pathTo: string): void {
+    //TODO: deprecated
+    fs.rmdirSync(pathTo, { recursive: true });
+  }
+
+  public deleteFile(pathTo: string): void {
+    fs.unlinkSync(pathTo);
+  }
+
+  public exists(path: string): boolean {
     return fs.existsSync(path);
   }
 
@@ -72,5 +80,20 @@ export class FSDirRepository implements DirRepository {
     const splited = name.split("/");
 
     return splited[splited.length - 1];
+  }
+
+  private createFullPath(fullPath: string): boolean {
+    let parts = fullPath.split("/");
+    let pathToTest = parts[0];
+
+    for (let index = 1; index <= parts.length; index++) {
+      if (!fs.existsSync(pathToTest) && pathToTest) {
+        fs.mkdirSync(pathToTest);
+      }
+
+      pathToTest += `/${parts[index]}`;
+    }
+
+    return fs.existsSync(fullPath);
   }
 }

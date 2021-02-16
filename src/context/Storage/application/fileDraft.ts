@@ -1,10 +1,17 @@
-import fs from "fs";
 import { Http4xxException } from "../../shared/domain/exceptions/Http4xx.exception";
+import { DirRepository } from "../domain/intrefaces/DirRepository.interface";
 
 export class FileDraft {
-  public delete(path: string): void {
-    if (!fs.existsSync(path)) throw new Http4xxException("file not exits", 400);
+  private dirRepository: DirRepository;
 
-    fs.unlinkSync(path);
+  constructor(dirRepository: DirRepository) {
+    this.dirRepository = dirRepository;
+  }
+
+  public delete(path: string): void {
+    if (!this.dirRepository.exists(path))
+      throw new Http4xxException("file not exits", 400);
+
+    this.dirRepository.deleteFile(path);
   }
 }
