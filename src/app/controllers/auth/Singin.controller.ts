@@ -9,6 +9,7 @@ import { utilsDependencies } from "../../dic/utils.injector";
 import { Signin } from "../../../context/Users/application/signinUser";
 
 import { Controller } from "../controller.interface";
+import { useCasesDependencies } from "../../dic/useCases.injector";
 
 export class SigninController implements Controller {
   public async run(req: Request, res: Response) {
@@ -16,11 +17,9 @@ export class SigninController implements Controller {
 
     try {
       const container = getContainer();
-      const userRepository = container.get(repositories.MongoUserRepository);
-      const crypt = container.get(utilsDependencies.BCRYPT);
       const jwt = container.get(utilsDependencies.JSONWEBTOKEN);
 
-      const singinUser = new Signin(userRepository, crypt);
+      const singinUser = container.get(useCasesDependencies.Signin);
       const user = await singinUser.signin(body.email, body.password);
 
       res.json({

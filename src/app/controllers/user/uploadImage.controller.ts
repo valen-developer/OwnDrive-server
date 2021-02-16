@@ -5,6 +5,7 @@ import { UpdateUser } from "../../../context/Users/application/updateUser";
 import { UserRepository } from "../../../context/Users/domain/userRepository.interface";
 import { getContainer } from "../../dic/container";
 import { repositories } from "../../dic/repositories.injector";
+import { useCasesDependencies } from "../../dic/useCases.injector";
 import { Controller } from "../controller.interface";
 
 export class UploadUserImageController implements Controller {
@@ -15,12 +16,11 @@ export class UploadUserImageController implements Controller {
 
     try {
       const container = getContainer();
-      const userRepository = container.get(repositories.MongoUserRepository);
 
       const uploader = new ImageUploaderExpress();
       const imagePath = await uploader.upload(files, email);
 
-      const userUploader = new UpdateUser(userRepository);
+      const userUploader = container.get(useCasesDependencies.UpdateUser);
       await userUploader.update(uuid, { image: imagePath });
 
       res.json({ ok: true });

@@ -11,6 +11,7 @@ import { Http4xxException } from "../../../context/shared/domain/exceptions/Http
 import { getContainer } from "../../dic/container";
 import { repositories } from "../../dic/repositories.injector";
 import { utilsDependencies } from "../../dic/utils.injector";
+import { useCasesDependencies } from "../../dic/useCases.injector";
 
 export class ChangePasswordController implements Controller {
   public async run(req: Request, res: Response) {
@@ -19,12 +20,11 @@ export class ChangePasswordController implements Controller {
 
     try {
       const container = getContainer();
-      const userRepository = container.get(repositories.MongoUserRepository);
       const crypt = container.get(utilsDependencies.BCRYPT);
 
       this.verifyPassword(password);
 
-      const updater = new UpdateUser(userRepository);
+      const updater = container.get(useCasesDependencies.UpdateUser);
       await updater.update(uuid, {
         password: crypt.hashSync(password, 10),
         validated: true,
