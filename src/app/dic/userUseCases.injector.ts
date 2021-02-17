@@ -1,4 +1,5 @@
 import { IOC } from "dic-ioc";
+import { UserFinder } from "../../context/Users/application/findUser";
 
 import { Signin } from "../../context/Users/application/signinUser";
 import { UpdateUser } from "../../context/Users/application/updateUser";
@@ -11,6 +12,7 @@ export enum userUseCaseDependencies {
   Signin = "Signin",
   UserCreator = "UserCreator",
   UpdateUser = "UpdateUser",
+  FindUser = "FindUser",
 }
 
 export const userUserCasesInjector = (container: IOC) => {
@@ -31,5 +33,10 @@ export const userUserCasesInjector = (container: IOC) => {
   container.setService(
     userUseCaseDependencies.UpdateUser,
     (c) => new UpdateUser(c.get(repositories.MongoUserRepository))
+  );
+
+  container.setService(
+    userUseCaseDependencies.FindUser,
+    (c) => new UserFinder(c.get(repositories.MongoUserRepository))
   );
 };

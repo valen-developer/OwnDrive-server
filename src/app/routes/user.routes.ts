@@ -2,6 +2,7 @@ import { Router } from "express";
 
 //Controllers
 import { ChangePasswordController } from "../controllers/user/chagePassword.controller";
+import { GetProfileImageController } from "../controllers/user/getProfileImage";
 import { UploadUserImageController } from "../controllers/user/uploadImage.controller";
 
 //Middlewares
@@ -16,8 +17,14 @@ const userValidatedMiddleware = new UserValidatedMiddleware();
 
 //Controllers
 const changePasswordController: ChangePasswordController = new ChangePasswordController();
-
 const uploadUserImageController: UploadUserImageController = new UploadUserImageController();
+const getProfileImageController: GetProfileImageController = new GetProfileImageController();
+
+userRouter.get(
+  "/image",
+  [validateTokenMiddleware.run, userValidatedMiddleware.run],
+  getProfileImageController.run
+);
 
 userRouter.patch(
   "/password",

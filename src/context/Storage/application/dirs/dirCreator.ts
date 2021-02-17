@@ -9,6 +9,8 @@ export class DirCreator {
   }
 
   createDir(pathToSave: string, name: string): void {
+    if (!name) throw new Http4xxException("dir name shouldn´t be null", 400);
+
     const isCreated = this.dirRepository.createDir(pathToSave, name);
 
     if (!isCreated) throw new Http4xxException("dir can´t be created", 500);
