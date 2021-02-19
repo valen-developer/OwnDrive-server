@@ -1,13 +1,9 @@
 import { generateRandomPassword } from "../../../../app/utils/randomPasswordGenerator";
 import { Http4xxException } from "../../../../context/shared/domain/exceptions/Http4xx.exception";
-import { NullValueException } from "../../../../context/shared/domain/exceptions/NullValue.exception";
 import { UserFinder } from "../../../../context/Users/application/findUser";
 import { UpdateUser } from "../../../../context/Users/application/updateUser";
 import { UserCreator } from "../../../../context/Users/application/userCreator";
-import {
-  User,
-  UserWithoutPassword,
-} from "../../../../context/Users/domain/user.model";
+import { User } from "../../../../context/Users/domain/user.model";
 import { MockUserRepository } from "../infrastructure/MockUserRepository";
 
 const mockUserRepository = new MockUserRepository();

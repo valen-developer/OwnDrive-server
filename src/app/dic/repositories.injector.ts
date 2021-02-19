@@ -4,23 +4,20 @@ import { FSDirRepository } from "../../context/Storage/infrastructure/fsDir.repo
 import { MongoUserRepository } from "../../context/Users/infrastructure/mongoRepository/mongoUserRepository.repository";
 
 export enum repositories {
-  MongoUserRepository = "MongoUserRepository",
-  FSDirRepository = "FSDirRepository",
-  ExpressFileRepository = "ExpressFileRepository",
+  UserRepository = "MongoUserRepository",
+  DirRepository = "FSDirRepository",
+  FileRepository = "ExpressFileRepository",
 }
 
 export const repositoriesInjector = (container: IOC) => {
   container.setService(
-    repositories.MongoUserRepository,
+    repositories.UserRepository,
     () => new MongoUserRepository()
   );
 
+  container.setService(repositories.DirRepository, () => new FSDirRepository());
   container.setService(
-    repositories.FSDirRepository,
-    () => new FSDirRepository()
-  );
-  container.setService(
-    repositories.ExpressFileRepository,
+    repositories.FileRepository,
     () => new ExpressFileRepository()
   );
 };

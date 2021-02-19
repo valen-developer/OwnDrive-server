@@ -19,22 +19,22 @@ export enum storageUseCasesDependencies {
 export const storageUsesCasesInjector = (container: IOC) => {
   container.setService(
     storageUseCasesDependencies.DirCreator,
-    (c) => new DirCreator(c.get(repositories.FSDirRepository))
+    (c) => new DirCreator(c.get(repositories.DirRepository))
   );
   container.setService(
     storageUseCasesDependencies.DirDraft,
-    (c) => new DirDraft(c.get(repositories.FSDirRepository))
+    (c) => new DirDraft(c.get(repositories.DirRepository))
   );
   container.setService(
     storageUseCasesDependencies.FileDraft,
-    (c) => new FileDraft(c.get(repositories.ExpressFileRepository))
+    (c) => new FileDraft(c.get(repositories.FileRepository))
   );
   container.setService(
     storageUseCasesDependencies.FileUploader,
-    (c) => new FileUploader(c.get(repositories.ExpressFileRepository))
+    (c) => new FileUploader(c.get(repositories.FileRepository))
   );
   container.setService(
     storageUseCasesDependencies.FilesAndDirsLister,
-    (c) => new FilesAndDirsLister(c.get(repositories.FSDirRepository))
+    (c) => new FilesAndDirsLister(c.get(repositories.DirRepository))
   );
 };

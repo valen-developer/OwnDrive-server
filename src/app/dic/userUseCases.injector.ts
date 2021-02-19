@@ -20,23 +20,23 @@ export const userUserCasesInjector = (container: IOC) => {
     userUseCaseDependencies.Signin,
     (c) =>
       new Signin(
-        c.get(repositories.MongoUserRepository),
+        c.get(repositories.UserRepository),
         c.get(utilsDependencies.BCRYPT)
       )
   );
 
   container.setService(
     userUseCaseDependencies.UserCreator,
-    (c) => new UserCreator(c.get(repositories.MongoUserRepository))
+    (c) => new UserCreator(c.get(repositories.UserRepository))
   );
 
   container.setService(
     userUseCaseDependencies.UpdateUser,
-    (c) => new UpdateUser(c.get(repositories.MongoUserRepository))
+    (c) => new UpdateUser(c.get(repositories.UserRepository))
   );
 
   container.setService(
     userUseCaseDependencies.FindUser,
-    (c) => new UserFinder(c.get(repositories.MongoUserRepository))
+    (c) => new UserFinder(c.get(repositories.UserRepository))
   );
 };

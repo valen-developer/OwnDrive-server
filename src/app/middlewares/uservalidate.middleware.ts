@@ -18,7 +18,7 @@ export class UserValidatedMiddleware implements Middleware {
         return res.status(400).json({ ok: false, error: "not uuid obtained" });
 
       const container = getContainer();
-      const userRepository = container.get(repositories.MongoUserRepository);
+      const userRepository = container.get(repositories.UserRepository);
 
       const userFinder = new UserFinder(userRepository);
       const userDB = await userFinder.byUuid(uuid);

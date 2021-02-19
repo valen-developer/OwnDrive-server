@@ -17,7 +17,7 @@ export class GetFileController implements Controller {
     try {
       const container = getContainer();
       const fileRepository: FileRepository = container.get(
-        repositories.ExpressFileRepository
+        repositories.FileRepository
       );
 
       const fullPath = path.join(storage.path, email, pathFrom);
