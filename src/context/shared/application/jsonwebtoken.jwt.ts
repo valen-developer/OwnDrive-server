@@ -3,20 +3,26 @@ import jwt from "jsonwebtoken";
 import { JWT } from "../domain/interfaces/jsonwebtoken.interface";
 
 export class JSONWEBTOKEN implements JWT {
-  decode(token: string, options: any): any {
+  public decode(token: string, options: any): any {
     return jwt.decode(token, options);
   }
-  sign(
+
+  public sign(
     payload: string | object | Buffer,
     secretkey: string,
     options = {}
   ): string {
     return jwt.sign(payload, secretkey, options);
   }
-  verify(token: string, secret: string): boolean {
-    const verify = jwt.verify(token, secret);
 
-    if (verify) return true;
+  public verify(token: string, secret: string): boolean {
+    let error: string | null = null;
+
+    jwt.verify(token, secret, (err) => {
+      if (err) error = err.message;
+    });
+
+    if (!error) return true;
 
     return false;
   }
